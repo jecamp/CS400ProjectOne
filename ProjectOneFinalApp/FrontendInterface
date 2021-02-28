@@ -1,5 +1,6 @@
 package MovieMakerProject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,8 +22,12 @@ public class FrontendInterface {
   }
 
   public static void baseMenu(BackendDummy movies) {
-
-    System.out.println(movies.getThreeMovies(0));
+    ArrayList<MovieInterface> threeMovies;
+    threeMovies = (ArrayList<MovieInterface>) movies.getThreeMovies(0);
+    for(int i=0;i<3;i++) {
+      System.out.print(i+1 +"." + threeMovies.get(i).getTitle() + " ");
+    }
+    System.out.println(" ");
 
     baseMenuDisplay(movies);
   }
