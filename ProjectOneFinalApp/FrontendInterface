@@ -1,0 +1,217 @@
+package MovieMakerProject;
+
+import java.util.List;
+import java.util.Scanner;
+
+// --== CS400 File Header Information ==--
+// Name: Brendan Chang
+// Email: bchang32@wisc.edu
+// Team: Red
+// Role: Front End Developer
+// TA: Xinyi Ju
+// Lecturer: Florian Heimerl
+// Notes to Grader: Have a great day :D
+
+public class FrontendInterface {
+  public static void main(String[] args) {
+    final BackendDummy movies = new BackendDummy(args);
+
+    System.out.println("Welcome to the Movie Mapper program!");
+    baseMenu(movies);
+  }
+
+  public static void baseMenu(BackendDummy movies) {
+
+    System.out.println(movies.getThreeMovies(0));
+
+    baseMenuDisplay(movies);
+  }
+
+  public static void baseMenuDisplay(BackendDummy movies) {
+    Scanner reply = new Scanner(System.in);
+    String navigation;
+
+    System.out.println("Base Menu:");
+    System.out.println("Enter 'x' to exit");
+    System.out.println("Enter 'g' to enter genre selection menu");
+    System.out.println("Enter 'r' to enter ratings selection menu");
+    navigation = reply.nextLine();
+
+    if (navigation.equals("g")) {
+      genreSelectionMenu(movies);
+    } else if (navigation.equals("r")) {
+      ratingsSelectionMenu(movies);
+    } else if (navigation.equals("x")) {
+      System.out.println("Thanks for using the Movie Mapper program!");
+    } else {
+      System.out.println("You did not enter a valid input");
+      baseMenuDisplay(movies);
+    }
+  }
+
+  public static void genreSelectionMenu(BackendDummy movies) {
+    Scanner reply1 = new Scanner(System.in);
+    Scanner reply2 = new Scanner(System.in);
+
+    String navigation;
+    String selection;
+    int genreSelection;
+    String repeat;
+    List<String> allGenres = movies.getAllGenres();
+    List<String> selectedGenres = movies.getGenres();
+
+    System.out.println("Genre Selection Menu:");
+    genreSelectionDisplay(allGenres, selectedGenres);
+    genreSelection(movies, allGenres, selectedGenres);
+    genreSelectionDisplay(allGenres, selectedGenres);
+
+    System.out.println("Do you want to select/deselect another genre (yes/no)?");
+    repeat = reply1.nextLine();
+    while (repeat.equals("yes")) {
+
+      genreSelection(movies, allGenres, selectedGenres);
+      genreSelectionDisplay(allGenres, selectedGenres);
+
+      System.out.println("Do you want to select/deselect another genre (yes/no)?");
+      repeat = reply1.nextLine();
+    }
+
+    System.out.println("Enter 'x' to exit to base menu");
+    navigation = reply1.nextLine();
+
+    if (navigation.equals("x")) {
+      baseMenu(movies);
+    }
+  }
+
+  public static void genreSelectionDisplay(List<String> allGenres, List<String> selectedGenres) {
+    System.out.print("Genres Available: ");
+    for (int i = 0; i < allGenres.size(); i++) {
+      System.out.print(i + 1 + "." + allGenres.get(i) + " ");
+    }
+    System.out.println(" ");
+    System.out.print("Genres Selected: ");
+    for (int i = 0; i < selectedGenres.size(); i++) {
+      System.out.print(i + 1 + "." + selectedGenres.get(i) + " ");
+    }
+    System.out.println(" ");
+  }
+
+  public static void genreSelection(BackendDummy movies, List<String> allGenres, List<String>selectedGenres) {
+    Scanner reply1 = new Scanner(System.in);
+    Scanner reply2 = new Scanner(System.in);
+    String selection;
+    int genreSelection;
+    
+    System.out.println("Do you want to select or deselect a genre (select/deselect)?");
+    selection = reply1.nextLine();
+    if (selection.equals("select")) {
+      System.out.println("Which genre did you want to select (1-" + allGenres.size() + ")?");
+      genreSelection = reply2.nextInt();
+      if(selectedGenres.contains(genreSelection)) {
+        System.out.println("Genre already in list");
+        genreSelection(movies,allGenres,selectedGenres);
+      } else {
+      movies.addGenre(allGenres.get(genreSelection-1));
+      }
+    } else if (selection.equals("deselect")) {
+      System.out.println("Which genre did you want to deselect (1-" + selectedGenres.size() + ")?");
+      genreSelection = reply2.nextInt();
+      if(!selectedGenres.contains(genreSelection)) {
+        System.out.println("Genre is not in selected list");
+        genreSelection(movies,allGenres,selectedGenres);
+      } else {
+      movies.removeGenre(allGenres.get(genreSelection-1));
+      }
+    } else {
+      System.out.println("You did not enter a valid input");
+      genreSelection(movies,allGenres,selectedGenres);
+    }
+    
+  }
+
+  public static void ratingsSelectionMenu(BackendDummy movies) {
+    Scanner reply = new Scanner(System.in);
+    String navigation;
+    String selection;
+    String ratingSelection;
+    String repeat;
+    List<String> avgRatings = movies.getAvgRatings();
+
+    System.out.println("Rating Selection Menu:");
+
+    ratingsSelectionDisplay(avgRatings);
+    ratingsSelection(movies, avgRatings);
+    ratingsSelectionDisplay(avgRatings);
+
+    System.out.println("Do you want to add/remove another rating (yes/no)?");
+    repeat = reply.nextLine();
+    while (repeat.equals("yes")) {
+      ratingsSelection(movies, avgRatings);
+      ratingsSelectionDisplay(avgRatings);
+
+      System.out.println("Do you want to add/remove another rating (yes/no)?");
+      repeat = reply.nextLine();
+    }
+
+    System.out.println("Enter 'x' to exit to base menu");
+    navigation = reply.nextLine();
+    if (navigation.equals("x")) {
+      baseMenu(movies);
+    }
+  }
+
+  public static void ratingsSelectionDisplay(List<String> avgRatings) {
+    System.out.print("Ratings Selected: ");
+    for (int i = 0; i < avgRatings.size(); i++) {
+      System.out.print(avgRatings.get(i) + " ");
+    }
+    System.out.println(" ");
+  }
+
+  public static void ratingsSelection(BackendDummy movies, List<String> avgRatings) {
+    Scanner reply = new Scanner(System.in);
+    String selection;
+    String ratingSelection;
+
+    System.out.println("Do you want to add or remove a rating (add/remove)?");
+    selection = reply.nextLine();
+    if (selection.equals("add")) {
+      System.out.println("Which rating do you want to add (1-10)?");
+      ratingSelection = reply.nextLine();
+      if (avgRatings.contains(ratingSelection)) {
+        System.out.println("Rating is already selected");
+        ratingsSelection(movies, avgRatings);
+      } else {
+        movies.addAvgRating(ratingSelection);
+      }
+    } else if (selection.equals("remove")) {
+      System.out.println("Which rating do you want to remove (1-10)?");
+      ratingSelection = reply.nextLine();
+      if (!avgRatings.contains(ratingSelection)) {
+        System.out.println("Rating isn't selected");
+        ratingsSelection(movies, avgRatings);
+      } else {
+        movies.removeAvgRating(ratingSelection);
+      }
+    }
+  }
+
+  public static boolean contains(List<String> list, String selection) {
+    for (int i = 0; i < list.size(); i++) {
+      if (list.get(i).equals(selection)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  public static boolean contains(List<String> allGenres, List<String> selectionList, int selection) {
+    for (int i = 0; i < allGenres.size(); i++) {
+      if (selectionList.get(i).equals(allGenres.get(selection))) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
