@@ -1,8 +1,13 @@
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+// --== CS400 File Header Information ==--
+// Name: Kyle Sung
+// Email: kesung2@wisc.edu
+// Team: Red
+// Role: Data Wrangler
+// TA: Xinyi Liu
+// Lecturer: Florian Heimerl
+// Notes to Grader: Have a great day :)
+
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 public class Movie implements MovieInterface {
 
@@ -26,31 +31,61 @@ public class Movie implements MovieInterface {
   }
 
   @Override
+  /**
+   * Getter method for title
+   * 
+   * @return String title
+   */
   public String getTitle() {
     return title;
   }
 
   @Override
+  /**
+   * Getter method for year
+   * 
+   * @return Integer year
+   */
   public Integer getYear() {
     return year;
   }
 
   @Override
+  /**
+   * Getter method for year
+   * 
+   * @return List<String> of genres
+   */
   public List<String> getGenres() {
     return genres;
   }
 
   @Override
+  /**
+   * Getter method for director
+   * 
+   * @return String director
+   */
   public String getDirector() {
     return director;
   }
 
   @Override
+  /**
+   * Getter method for description
+   * 
+   * @return String description
+   */
   public String getDescription() {
     return description;
   }
 
   @Override
+  /**
+   * Getter method for average vote
+   * 
+   * @return Float average vote
+   */
   public Float getAvgVote() {
     return avgVote;
   }
@@ -66,6 +101,9 @@ public class Movie implements MovieInterface {
   }
 
   @Override
+  /**
+   * CompareTo method that compares 2 movie objects based on the average votes
+   */
   public int compareTo(MovieInterface otherMovie) {
     // case if same movies are being compared
     if (this.getTitle().contentEquals(otherMovie.getTitle())) {

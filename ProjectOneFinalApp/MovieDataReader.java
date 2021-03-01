@@ -1,11 +1,17 @@
-// import java.io.FileNotFoundException;
+// --== CS400 File Header Information ==--
+// Name: Kyle Sung
+// Email: kesung2@wisc.edu
+// Team: Red
+// Role: Data Wrangler
+// TA: Xinyi Liu
+// Lecturer: Florian Heimerl
+// Notes to Grader: Have a great day :)
+
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
 public class MovieDataReader implements MovieDataReaderInterface {
@@ -28,7 +34,6 @@ public class MovieDataReader implements MovieDataReaderInterface {
   @Override
   public List<MovieInterface> readDataSet(Reader inputFileReader)
       throws IOException, DataFormatException {
-    // Scanner sc = new Scanner(inputFileReader);
     BufferedReader br = new BufferedReader(inputFileReader);
     String line;
     int titleIndex = 0;
@@ -37,12 +42,13 @@ public class MovieDataReader implements MovieDataReaderInterface {
     int directorIndex = 0;
     int descriptionIndex = 0;
     int avgVoteIndex = 0;
-    // checks if scanner can read the FileReader, throws IOException if it cannot
+    // checks if buffered reader can read the FileReader, throws IOException if it cannot
     try {
       String l = br.readLine(); // reads the header line
       String[] heading = l.split(",");
       propertyLimit = heading.length;
-      // for loop that loops through the header line and finds the index number of each property
+      // for loop that loops through the header line and finds the index number of each movie
+      // property
       for (int i = 0; i < heading.length; i++) {
         String cur = heading[i];
         if (cur.equals("title")) {
@@ -76,10 +82,12 @@ public class MovieDataReader implements MovieDataReaderInterface {
         throw new DataFormatException(
             "ERROR: Line number " + numOfLine + " has incorrect number of movie properties.");
       }
+      /**
+       * this section defines the various movie properties based on the indexes given by the header
+       * line and the array of properties that was split from each movie line
+       */
       String title = prop[titleIndex];
       Integer year = Integer.valueOf(prop[yearIndex]);
-      // this removes the quotes remaining after splitting and splits each genre by comma to put
-      // into the list
       List<String> genres = transformGenre(prop[genreIndex]);
       String director = transformDirectors(prop[directorIndex]);
       String description = prop[descriptionIndex];
@@ -92,7 +100,8 @@ public class MovieDataReader implements MovieDataReaderInterface {
   }
 
   /**
-   * This method reformats the string of genres into a List of genres
+   * This private helper method reformats the string of genres into a List of genres while also
+   * removing double quotes
    * 
    * @param genres
    * @return reformted list of genre
@@ -109,7 +118,8 @@ public class MovieDataReader implements MovieDataReaderInterface {
   }
 
   /**
-   * This method reformats the string of directors by removing double quotes from multiple directors
+   * This private helper method reformats the string of directors by removing double quotes from
+   * multiple directors
    * 
    * @param directors
    * @return reformatted string of directors
