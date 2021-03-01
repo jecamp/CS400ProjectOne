@@ -1,24 +1,27 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 public class Backend implements BackendInterface {
 
   private HashTableMap<String, List<MovieInterface>> genresHashed;
-  private HashTableMap<Float, List<MovieInterface>> avgRatingsHashed;
+  private HashTableMap<Integer, List<MovieInterface>> avgRatingsHashed;
   private List<String> genresAdded;
   private List<String> avgRatingsAdded;
-  List<MovieInterface> allMovies;
+  private List<MovieInterface> allMovies;
   
   
-  public Backend(StringReader reader) {
-    //Work on getting the list of movies
+  public Backend(Reader inputReader) {
     MovieDataReaderDummy k = new MovieDataReaderDummy();
     try {
-      allMovies = k.readDataSet(reader);
+      allMovies = k.readDataSet(inputReader);
+    } catch (DataFormatException e) {
+      e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     hashGenre();
@@ -27,8 +30,8 @@ public class Backend implements BackendInterface {
     avgRatingsAdded = new ArrayList<String>();
   }
   
-  public Backend(String[] args) {
-    
+  public Backend(String[] args) throws FileNotFoundException {
+    this(new FileReader(args[0]));
   }
   
   private void hashGenre() {
@@ -47,41 +50,18 @@ public class Backend implements BackendInterface {
   }
   
   private void hashAvgRatings() {
-    avgRatingsHashed = new HashTableMap<Float, List<MovieInterface>>();
+    avgRatingsHashed = new HashTableMap<Integer, List<MovieInterface>>();
     for (int i = 0; i < allMovies.size(); i++) {
-        if (!avgRatingsHashed.containsKey(allMovies.get(i).getAvgVote())) {
+        if (!avgRatingsHashed.containsKey(allMovies.get(i).getAvgVote().intValue())) {
           ArrayList<MovieInterface> avgRatings = new ArrayList<MovieInterface>();
           avgRatings.add(allMovies.get(i));
-          avgRatingsHashed.put(allMovies.get(i).getAvgVote(), avgRatings);
+          avgRatingsHashed.put(allMovies.get(i).getAvgVote().intValue(), avgRatings);
         } else {
-          avgRatingsHashed.get(allMovies.get(i).getAvgVote()).add(allMovies.get(i));
+          avgRatingsHashed.get(allMovies.get(i).getAvgVote().intValue()).add(allMovies.get(i));
         }
       }
   }
-  
-  private List<MovieInterface> resultingSet() {
-    List<MovieInterface> list = new ArrayList<MovieInterface>();    
-    for (int k = 0; k < avgRatingsAdded.size(); k++) {
-       for (int l = 0; l < avgRatingsHashed.get(Float.parseFloat(avgRatingsAdded.get(k))).size(); l++) {
-         list.add(avgRatingsHashed.get(Float.parseFloat(avgRatingsAdded.get(k))).get(l));
-       }
-    }
-    int tracker = 0;
-    if (list.isEmpty() && !genresAdded.isEmpty()) {
-      list = genresHashed.get(genresAdded.get(0));
-      tracker++;
-    }
-    
-    for (int i = tracker; i < genresAdded.size(); i++) {
-      for (int j = 0; j < list.size(); j++) {
-        if (!list.get(j).getGenres().contains(genresAdded.get(i))) {
-          list.remove(j);
-          j--;
-        }
-      }    
-    } 
-    return list;   
-  }
+ 
   
   @Override
   public void addGenre(String genre) {
@@ -115,23 +95,55 @@ public class Backend implements BackendInterface {
     return avgRatingsAdded;
   }
 
+  
+  
+  public List<MovieInterface> getAvgRatingsMovies() {
+    List<MovieInterface> avgRatingsList = new ArrayList<MovieInterface>();
+    for (int i = 0; i < avgRatingsAdded.size(); i++) {
+      for (int j = 0; j < avgRatingsHashed.get(Integer.parseInt(avgRatingsAdded.get(i))).size(); j++) {
+        avgRatingsList.add(avgRatingsHashed.get(Integer.parseInt(avgRatingsAdded.get(i))).get(j));
+      }
+    }
+    return avgRatingsList;
+  }
+  
+  public List<MovieInterface> getGenresMovies() {
+    List<MovieInterface> genresList = new ArrayList<MovieInterface>();
+    if (!genresAdded.isEmpty()) {
+      for (int l = 0; l < genresHashed.get(genresAdded.get(0)).size(); l++) {
+        genresList.add(genresHashed.get(genresAdded.get(0)).get(l));
+      }
+    }
+    for (int i = 1; i < genresAdded.size(); i++) {
+      for (int j = 0; j < genresList.size(); j++) {
+        if (!genresList.get(j).getGenres().contains(genresAdded.get(i))) {
+          genresList.remove(j);
+          j--;
+        }
+      }
+    }
+    return genresList;
+  }
+  
+  public List<MovieInterface> resultingSet() {
+    List<MovieInterface> duplicateList = new ArrayList<>();
+    List<MovieInterface> genres = getGenresMovies();
+    List<MovieInterface> avgRatings = getAvgRatingsMovies();
+    for (int i = 0; i < genres.size(); i++) {
+      if (avgRatings.contains(genres.get(i))) {
+        duplicateList.add(genres.get(i));
+      }
+    }
+    return duplicateList;
+  }
+  
+  
+  
   @Override
   public int getNumberOfMovies() {
     return resultingSet().size();
   }
   
-  @Override
-  public List<String> getAllGenres() {
-    List<String> genresChecked = new ArrayList<String>();
-    for (int i = 0; i < allMovies.size(); i++) {
-      for (int j = 0; j < allMovies.get(i).getGenres().size(); j++) {
-        if (!genresChecked.contains(allMovies.get(i).getGenres().get(j))) {
-          genresChecked.add(allMovies.get(i).getGenres().get(j));
-        }
-      }
-    }
-    return genresChecked;
-  }
 
   @Override
   public List<MovieInterface> getThreeMovies(int startingIndex) {
@@ -158,4 +170,18 @@ public class Backend implements BackendInterface {
     }
     return list.get(index);
   }
+  
+  @Override
+  public List<String> getAllGenres() {
+    List<String> genresChecked = new ArrayList<String>();
+    for (int i = 0; i < allMovies.size(); i++) {
+      for (int j = 0; j < allMovies.get(i).getGenres().size(); j++) {
+        if (!genresChecked.contains(allMovies.get(i).getGenres().get(j))) {
+          genresChecked.add(allMovies.get(i).getGenres().get(j));
+        }
+      }
+    }
+    return genresChecked;
+  }
+  
 }
