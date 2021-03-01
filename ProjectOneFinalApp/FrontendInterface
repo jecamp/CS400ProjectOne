@@ -1,5 +1,4 @@
-package MovieMakerProject;
-
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,24 +14,27 @@ import java.util.Scanner;
 
 public class FrontendInterface {
   public static void main(String[] args) {
-    final BackendDummy movies = new BackendDummy(args);
-
-    System.out.println("Welcome to the Movie Mapper program!");
-    baseMenu(movies);
+    try {
+      final BackendInterface movies = new BackendInterface(args);
+      System.out.println("Welcome to the Movie Mapper program!");
+      baseMenu(movies);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
-  public static void baseMenu(BackendDummy movies) {
+  public static void baseMenu(BackendInterface movies) {
     ArrayList<MovieInterface> threeMovies;
     threeMovies = (ArrayList<MovieInterface>) movies.getThreeMovies(0);
-    for(int i=0;i<3;i++) {
-      System.out.print(i+1 +"." + threeMovies.get(i).getTitle() + " ");
+    for (int i = 0; i < 3; i++) {
+      System.out.print(i + 1 + "." + threeMovies.get(i).getTitle() + " ");
     }
     System.out.println(" ");
 
     baseMenuDisplay(movies);
   }
 
-  public static void baseMenuDisplay(BackendDummy movies) {
+  public static void baseMenuDisplay(BackendInterface movies) {
     Scanner reply = new Scanner(System.in);
     String navigation;
 
@@ -54,7 +56,7 @@ public class FrontendInterface {
     }
   }
 
-  public static void genreSelectionMenu(BackendDummy movies) {
+  public static void genreSelectionMenu(BackendInterface movies) {
     Scanner reply1 = new Scanner(System.in);
     Scanner reply2 = new Scanner(System.in);
 
@@ -102,40 +104,41 @@ public class FrontendInterface {
     System.out.println(" ");
   }
 
-  public static void genreSelection(BackendDummy movies, List<String> allGenres, List<String>selectedGenres) {
+  public static void genreSelection(BackendInterface movies, List<String> allGenres,
+      List<String> selectedGenres) {
     Scanner reply1 = new Scanner(System.in);
     Scanner reply2 = new Scanner(System.in);
     String selection;
     int genreSelection;
-    
+
     System.out.println("Do you want to select or deselect a genre (select/deselect)?");
     selection = reply1.nextLine();
     if (selection.equals("select")) {
       System.out.println("Which genre did you want to select (1-" + allGenres.size() + ")?");
       genreSelection = reply2.nextInt();
-      if(selectedGenres.contains(genreSelection)) {
+      if (selectedGenres.contains(genreSelection)) {
         System.out.println("Genre already in list");
-        genreSelection(movies,allGenres,selectedGenres);
+        genreSelection(movies, allGenres, selectedGenres);
       } else {
-      movies.addGenre(allGenres.get(genreSelection-1));
+        movies.addGenre(allGenres.get(genreSelection - 1));
       }
     } else if (selection.equals("deselect")) {
       System.out.println("Which genre did you want to deselect (1-" + selectedGenres.size() + ")?");
       genreSelection = reply2.nextInt();
-      if(!selectedGenres.contains(genreSelection)) {
+      if (!selectedGenres.contains(genreSelection)) {
         System.out.println("Genre is not in selected list");
-        genreSelection(movies,allGenres,selectedGenres);
+        genreSelection(movies, allGenres, selectedGenres);
       } else {
-      movies.removeGenre(allGenres.get(genreSelection-1));
+        movies.removeGenre(allGenres.get(genreSelection - 1));
       }
     } else {
       System.out.println("You did not enter a valid input");
-      genreSelection(movies,allGenres,selectedGenres);
+      genreSelection(movies, allGenres, selectedGenres);
     }
-    
+
   }
 
-  public static void ratingsSelectionMenu(BackendDummy movies) {
+  public static void ratingsSelectionMenu(BackendInterface movies) {
     Scanner reply = new Scanner(System.in);
     String navigation;
     String selection;
@@ -174,7 +177,7 @@ public class FrontendInterface {
     System.out.println(" ");
   }
 
-  public static void ratingsSelection(BackendDummy movies, List<String> avgRatings) {
+  public static void ratingsSelection(BackendInterface movies, List<String> avgRatings) {
     Scanner reply = new Scanner(System.in);
     String selection;
     String ratingSelection;
@@ -210,7 +213,9 @@ public class FrontendInterface {
     }
     return false;
   }
-  public static boolean contains(List<String> allGenres, List<String> selectionList, int selection) {
+
+  public static boolean contains(List<String> allGenres, List<String> selectionList,
+      int selection) {
     for (int i = 0; i < allGenres.size(); i++) {
       if (selectionList.get(i).equals(allGenres.get(selection))) {
         return true;
