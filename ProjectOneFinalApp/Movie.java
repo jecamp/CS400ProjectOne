@@ -67,9 +67,15 @@ public class Movie implements MovieInterface {
 
   @Override
   public int compareTo(MovieInterface otherMovie) {
-    if(this.getTitle().contentEquals(otherMovie.getTitle())) {
-      
+    // case if same movies are being compared
+    if (this.getTitle().contentEquals(otherMovie.getTitle())) {
+      return 0;
+      // case if otherMovie has a higher average vote
+    } else if (this.getAvgVote() < otherMovie.getAvgVote()) {
+      return 1;
     }
+    // case if this movie had a higher average vote
+    return -1;
   }
 
 }
