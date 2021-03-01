@@ -1,3 +1,5 @@
+package MovieMakerProject;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.Scanner;
 public class FrontendInterface {
   public static void main(String[] args) {
     try {
-      final BackendInterface movies = new BackendInterface(args);
+      final Backend movies = new Backend(args);
       System.out.println("Welcome to the Movie Mapper program!");
       baseMenu(movies);
     } catch (FileNotFoundException e) {
@@ -23,7 +25,7 @@ public class FrontendInterface {
     }
   }
 
-  public static void baseMenu(BackendInterface movies) {
+  public static void baseMenu(Backend movies) {
     ArrayList<MovieInterface> threeMovies;
     threeMovies = (ArrayList<MovieInterface>) movies.getThreeMovies(0);
     for (int i = 0; i < 3; i++) {
@@ -34,7 +36,7 @@ public class FrontendInterface {
     baseMenuDisplay(movies);
   }
 
-  public static void baseMenuDisplay(BackendInterface movies) {
+  public static void baseMenuDisplay(Backend movies) {
     Scanner reply = new Scanner(System.in);
     String navigation;
 
@@ -56,13 +58,11 @@ public class FrontendInterface {
     }
   }
 
-  public static void genreSelectionMenu(BackendInterface movies) {
+  public static void genreSelectionMenu(Backend movies) {
     Scanner reply1 = new Scanner(System.in);
     Scanner reply2 = new Scanner(System.in);
 
     String navigation;
-    String selection;
-    int genreSelection;
     String repeat;
     List<String> allGenres = movies.getAllGenres();
     List<String> selectedGenres = movies.getGenres();
@@ -82,10 +82,15 @@ public class FrontendInterface {
       System.out.println("Do you want to select/deselect another genre (yes/no)?");
       repeat = reply1.nextLine();
     }
+    
+    List<MovieInterface> genreMovie = movies.getGenresMovies();
+    for(int i=0;i<genreMovie.size();i++) {
+      System.out.println(genreMovie.get(i).getTitle());
+    }
 
     System.out.println("Enter 'x' to exit to base menu");
     navigation = reply1.nextLine();
-
+    
     if (navigation.equals("x")) {
       baseMenu(movies);
     }
@@ -104,7 +109,7 @@ public class FrontendInterface {
     System.out.println(" ");
   }
 
-  public static void genreSelection(BackendInterface movies, List<String> allGenres,
+  public static void genreSelection(Backend movies, List<String> allGenres,
       List<String> selectedGenres) {
     Scanner reply1 = new Scanner(System.in);
     Scanner reply2 = new Scanner(System.in);
@@ -138,13 +143,16 @@ public class FrontendInterface {
 
   }
 
-  public static void ratingsSelectionMenu(BackendInterface movies) {
+  public static void ratingsSelectionMenu(Backend movies) {
     Scanner reply = new Scanner(System.in);
     String navigation;
-    String selection;
-    String ratingSelection;
     String repeat;
     List<String> avgRatings = movies.getAvgRatings();
+
+    
+    for(int i=0;i<10;i++) {
+      avgRatings.add(" "+ i + "" );
+    }
 
     System.out.println("Rating Selection Menu:");
 
@@ -160,6 +168,11 @@ public class FrontendInterface {
 
       System.out.println("Do you want to add/remove another rating (yes/no)?");
       repeat = reply.nextLine();
+    }
+    
+    List<MovieInterface> avgRatingMovie = movies.getAvgRatingsMovies();
+    for(int i=0;i<avgRatingMovie.size();i++) {
+      System.out.println(avgRatingMovie.get(i).getTitle());
     }
 
     System.out.println("Enter 'x' to exit to base menu");
@@ -177,7 +190,7 @@ public class FrontendInterface {
     System.out.println(" ");
   }
 
-  public static void ratingsSelection(BackendInterface movies, List<String> avgRatings) {
+  public static void ratingsSelection(Backend movies, List<String> avgRatings) {
     Scanner reply = new Scanner(System.in);
     String selection;
     String ratingSelection;
