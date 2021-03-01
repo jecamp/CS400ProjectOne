@@ -1,17 +1,12 @@
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * This class contains a set of tests for the MovieInterface and MovieDataReaderInterface
- * implementation of the Movie Mapper project.
- */
 public class TestMovieAndMovieDataReader {
-
-  MovieDataReaderInterface readerToTest;
-
   public static void main(String[] args) {
     (new TestMovieAndMovieDataReader()).runTests();
+    // System.out.println("Hello World");
   }
 
   /**
@@ -20,7 +15,7 @@ public class TestMovieAndMovieDataReader {
    */
   public void runTests() {
     // instantiate reader to test once it is implemented
-    readerToTest = null; // new MovieDataReader();
+    MovieDataReader readerToTest = new MovieDataReader(); // new MovieDataReader();
 
     // add all tests to this method
     if (this.testReaderNumberOfMovies()) {
@@ -59,6 +54,7 @@ public class TestMovieAndMovieDataReader {
   public boolean testReaderNumberOfMovies() {
     List<MovieInterface> movieList;
     try {
+      MovieDataReader readerToTest = new MovieDataReader(); // new MovieDataReader();
       movieList = readerToTest.readDataSet(new StringReader(
           "title,original_title,year,genre,duration,country,language,director,writer,production_company,actors,description,avg_vote\n"
               + "The Source of Shadows,The Source of Shadows,2020,Horror,83,USA,English,\"Ryan Bury, Jennifer Bonior\",\"Jennifer Bonior, Trevor Botkin\",Four Thieves Productions,\"Ashleigh Allard, Tom Bonington, Eliane Gagnon, Marissa Kaye Grinestaff, Jenna Heffernan, Joshua Hummel, Janice Kingsley, Chris Labasbas, Jared Laufree, Dominic Lee, Vic May, Sienna Mazzone, Lizzie Mounter, Grace Mumm, Ashley Otis\",\"A series of stories woven together by one of our most primal fears, the fear of the unknown.\",3.5\n"
@@ -88,6 +84,7 @@ public class TestMovieAndMovieDataReader {
   public boolean testReaderMovieTitles() {
     List<MovieInterface> movieList;
     try {
+      MovieDataReader readerToTest = new MovieDataReader(); // new MovieDataReader();
       movieList = readerToTest.readDataSet(new StringReader(
           "title,original_title,year,genre,duration,country,language,director,writer,production_company,actors,description,avg_vote\n"
               + "The Source of Shadows,The Source of Shadows,2020,Horror,83,USA,English,\"Ryan Bury, Jennifer Bonior\",\"Jennifer Bonior, Trevor Botkin\",Four Thieves Productions,\"Ashleigh Allard, Tom Bonington, Eliane Gagnon, Marissa Kaye Grinestaff, Jenna Heffernan, Joshua Hummel, Janice Kingsley, Chris Labasbas, Jared Laufree, Dominic Lee, Vic May, Sienna Mazzone, Lizzie Mounter, Grace Mumm, Ashley Otis\",\"A series of stories woven together by one of our most primal fears, the fear of the unknown.\",3.5\n"
@@ -127,6 +124,7 @@ public class TestMovieAndMovieDataReader {
   public boolean testMovieOrder() {
     List<MovieInterface> movieList;
     try {
+      MovieDataReader readerToTest = new MovieDataReader(); // new MovieDataReader();
       movieList = readerToTest.readDataSet(new StringReader(
           "title,original_title,year,genre,duration,country,language,director,writer,production_company,actors,description,avg_vote\n"
               + "The Source of Shadows,The Source of Shadows,2020,Horror,83,USA,English,\"Ryan Bury, Jennifer Bonior\",\"Jennifer Bonior, Trevor Botkin\",Four Thieves Productions,\"Ashleigh Allard, Tom Bonington, Eliane Gagnon, Marissa Kaye Grinestaff, Jenna Heffernan, Joshua Hummel, Janice Kingsley, Chris Labasbas, Jared Laufree, Dominic Lee, Vic May, Sienna Mazzone, Lizzie Mounter, Grace Mumm, Ashley Otis\",\"A series of stories woven together by one of our most primal fears, the fear of the unknown.\",3.5\n"
@@ -162,6 +160,7 @@ public class TestMovieAndMovieDataReader {
   public boolean testReaderMovieDirector() {
     List<MovieInterface> movieList;
     try {
+      MovieDataReader readerToTest = new MovieDataReader(); // new MovieDataReader();
       movieList = readerToTest.readDataSet(new StringReader(
           "title,original_title,year,genre,duration,country,language,director,writer,production_company,actors,description,avg_vote\n"
               + "The Source of Shadows,The Source of Shadows,2020,Horror,83,USA,English,\"Ryan Bury, Jennifer Bonior\",\"Jennifer Bonior, Trevor Botkin\",Four Thieves Productions,\"Ashleigh Allard, Tom Bonington, Eliane Gagnon, Marissa Kaye Grinestaff, Jenna Heffernan, Joshua Hummel, Janice Kingsley, Chris Labasbas, Jared Laufree, Dominic Lee, Vic May, Sienna Mazzone, Lizzie Mounter, Grace Mumm, Ashley Otis\",\"A series of stories woven together by one of our most primal fears, the fear of the unknown.\",3.5\n"
@@ -172,14 +171,24 @@ public class TestMovieAndMovieDataReader {
       e1.printStackTrace();
       return false;
     }
+    /**
+     * CHANGE MADE TO ORIGINAL TEST CASE
+     * 
+     * change was made so getting directors just outputs directors without extra quotes and slashes
+     * removes double quotes from test case so mathcing output is in the correct form we want
+     */
     // String director1 = "\"Ryan Bury, Jennifer Bonior\"";
-    // change was made so getting directors just outputs directors without extra quotes and slashes
-    String director1 = "\"Ryan Bury, Jennifer Bonior\"";
+    String director1 = "Ryan Bury, Jennifer Bonior";
     String director2 = "Rene Perez";
     String director3 = "Rachel Lee Goldenberg";
     boolean a = false;
     boolean b = false;
     boolean c = false;
+
+    /*
+     * System.out.println("Testing director output 1: " + movieList.get(0).getDirector());
+     * System.out.println("Testing director output 2: " + movieList.get(1).getDirector());
+     */
 
     // checks if the first movie in the list contains one of the listed directors
     if (director1.equals(movieList.get(0).getDirector())
@@ -216,6 +225,7 @@ public class TestMovieAndMovieDataReader {
   public boolean testReaderMovieGenre() {
     List<MovieInterface> movieList;
     try {
+      MovieDataReader readerToTest = new MovieDataReader(); // new MovieDataReader();
       movieList = readerToTest.readDataSet(new StringReader(
           "title,original_title,year,genre,duration,country,language,director,writer,production_company,actors,description,avg_vote\n"
               + "The Source of Shadows,The Source of Shadows,2020,Horror,83,USA,English,\"Ryan Bury, Jennifer Bonior\",\"Jennifer Bonior, Trevor Botkin\",Four Thieves Productions,\"Ashleigh Allard, Tom Bonington, Eliane Gagnon, Marissa Kaye Grinestaff, Jenna Heffernan, Joshua Hummel, Janice Kingsley, Chris Labasbas, Jared Laufree, Dominic Lee, Vic May, Sienna Mazzone, Lizzie Mounter, Grace Mumm, Ashley Otis\",\"A series of stories woven together by one of our most primal fears, the fear of the unknown.\",3.5\n"
@@ -225,29 +235,48 @@ public class TestMovieAndMovieDataReader {
       e1.printStackTrace();
       return false;
     }
-    String genre1 = "Horror";
-    String genre2 = "Action";
+    /**
+     * CHANGE MADE TO ORIGINAL TEST CASE
+     * 
+     * change was made so that the output is a List of string genres instead of simply string and
+     * double quotes was also removed from the test case so the correct form is maintained
+     */
+    List<String> genre1 = new ArrayList<String>();
+    List<String> genre2 = new ArrayList<String>();
+    List<String> genre3 = new ArrayList<String>();
+    genre1.add("Horror");
+    genre2.add("Action");
+    genre3.add("Comedy");
+    genre3.add("Musical");
+    genre3.add("Romance");
+    // String genre1 = "Horror";
+    // String genre2 = "Action";
     // String genre3 = "\"Comedy, Musical, Romance\"";
-    // this change was made so getting genres just outputs genres without the extra quotes and slash
-    String genre3 = "Comedy, Musical, Romance";
+    // String genre3 = "Comedy, Musical, Romance";
     boolean a = false;
     boolean b = false;
     boolean c = false;
 
+    /*
+     * System.out.println("Testing genre output 1: " + movieList.get(0).getGenres());
+     * System.out.println("Testing genre output 2: " + movieList.get(2).getGenres());
+     * System.out.println("Testing genre 1 answer: " + genre1); System.out.println("boolean a: " +
+     * a); System.out.println("boolean b: " + b); System.out.println("boolean c: " + c);
+     * System.out.println("If genre1 equals genre1: " +
+     * genre1.equals(movieList.get(0).getGenres()));
+     */
+
     // checks if the first movie in the list contains one of the above genres
-    if (genre1.equals(movieList.get(0).getGenres()) || genre2.equals(movieList.get(0).getGenres())
-        || genre3.equals(movieList.get(0).getGenres())) {
+    if (genre1.equals(movieList.get(0).getGenres())) {
       a = true;
     }
     // checks if the second movie in the list contains one of the above genres
-    if (genre1.equals(movieList.get(1).getGenres()) || genre2.equals(movieList.get(1).getGenres())
-        || genre3.equals(movieList.get(1).getGenres())) {
-      a = true;
+    if (genre2.equals(movieList.get(1).getGenres())) {
+      b = true;
     }
     // checks if the third movie in the list contains one of the above genres
-    if (genre1.equals(movieList.get(2).getGenres()) || genre2.equals(movieList.get(2).getGenres())
-        || genre3.equals(movieList.get(2).getGenres())) {
-      a = true;
+    if (genre3.equals(movieList.get(2).getGenres())) {
+      c = true;
     }
     if (!(a && b && c)) {
       return false;
