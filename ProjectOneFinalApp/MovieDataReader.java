@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+/**
+ * This class defines the Data Reader that is to take in a CSV file and parse the String in
+ * individual movie properties and store them as a single movie object
+ * 
+ * @author kylesung
+ *
+ */
 public class MovieDataReader implements MovieDataReaderInterface {
 
   List<MovieInterface> answer;
@@ -32,6 +39,15 @@ public class MovieDataReader implements MovieDataReaderInterface {
   }
 
   @Override
+  /**
+   * Method that is to take in a reader and uses buffered reader to read each line and parses the
+   * String into individual properties that is later inserted into a new Movie object and outputs a
+   * list of Movie objects taken from the reader
+   * 
+   * @param inputFileReader
+   * @return List<MovieInterface> containing the movies found in the CSV file
+   * 
+   */
   public List<MovieInterface> readDataSet(Reader inputFileReader)
       throws IOException, DataFormatException {
     BufferedReader br = new BufferedReader(inputFileReader);

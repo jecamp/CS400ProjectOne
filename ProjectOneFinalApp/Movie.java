@@ -9,6 +9,13 @@
 
 import java.util.List;
 
+/**
+ * This class defines the Movie object along with all the movie properties that is to be later
+ * stored in the List outputted by MovieDataReader class
+ * 
+ * @author kylesung
+ *
+ */
 public class Movie implements MovieInterface {
 
   // instance fields
@@ -94,6 +101,8 @@ public class Movie implements MovieInterface {
   /**
    * toString method meant to provide structured version of the movie with all attributes for the
    * front end developer
+   * 
+   * @return String formatted to contain all properties of movie
    */
   public String toString() {
     return "Title: " + title + " Year: " + year + " Genre: " + genres + " Director: " + director
@@ -103,6 +112,9 @@ public class Movie implements MovieInterface {
   @Override
   /**
    * CompareTo method that compares 2 movie objects based on the average votes
+   * 
+   * @param otherMovie
+   * @return int signifying less than, greater than, or equal to
    */
   public int compareTo(MovieInterface otherMovie) {
     // case if same movies are being compared

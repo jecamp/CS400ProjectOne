@@ -12,6 +12,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class is a tester class meant to test the functionality of the MovieDataReader and the Movie
+ * classes
+ * 
+ * @author kylesung
+ *
+ */
 public class TestMovieAndMovieDataReader {
   public static void main(String[] args) {
     (new TestMovieAndMovieDataReader()).runTests();
