@@ -1,29 +1,25 @@
 DataWrangler README for Project One (CS400 @ UW Madison)
 ========================================================
 
-Name of DataWrangler: <enter your complete name here>
-@wisc.edu Email of DataWrangler: <enter your @wisc.edu email address here>
-Group: <enter your two letter group name here>
-Team: <enter your team color: red, blue, or purple, here>
+Name of DataWrangler: Kyle Sung
+@wisc.edu Email of DataWrangler: kesung2@wisc.edu
+Group: JG
+Team: Red
 
 Files Written by Me:
 --------------------
-<List all files that were within this project that were written by you, and
- include a short description of the purpose that each file servers>
+Movie.java, MovieDataReader.java, and TestMovieAndMovieDataReader.java
+
+Movie.java: serves to define the movie object that is to be stored in the List outputed by the MovieDataReader, it includes all necessary getter methods of each property of a movie
+
+MovieDataReader.java: serves to read data inserted by the backend and output the data as a list of Movie objects in the correct form
+
+TestMovieAndMovieDataReader: serves as a tester class to test that the Movie.java and MovieDataReader.java is working properly and is outputing the expected data form when calling specific properties of the movie
 
 Additional Contributions:
 -------------------------
-<List any additional contributions that you have made toward your team's
- completion of this project.  This might include, but is not limited to things
- like: organizing team communication, creating extra tests or dummy classes,
- assisting team members in any way, etc.>
+I assisted in helping the backend developer debug with their test cases and integrating the backend code with the data wrangler code. 
 
 Signature:
 ----------
-<Type out your full name here to certify that all of the files written by you
- that are listed above are the product of your individual development efforts
- for this programming assignment.  List below your name, any exceptions, for 
- example: work reused from a previous semester, code examples taken from any 
- website or book, or anything that was not explicitly authored by you for
- the purpose of completing this assigned CS400 project.>
- 
+Kyle Sung
