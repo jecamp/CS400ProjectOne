@@ -1,19 +1,29 @@
 run:
-	@echo "FIXME: *make run* or just *make* should be the default target which compiles (when needed) and executes your code."
-
+default: make run
+	
 compile:
-	@echo "FIXME: *make compile* should compile the code for your project"
+FrontendInterface.class: FrontendInterface.java
+	javac FrontendInterface.java
 
+make run: FrontendInterface.class
+	java FrontendInterface "movies.csv"
+	
 test: testData testBackend testFrontend
 
-testFrontend:
-	@echo "FIXME: *make testFrontend* should compile (when needed) and run all your team's tests for this application"
+testFrontend: FrontendInterface.java
+	java TestFrontend
+TestFrontend.class: FrontendInterface.java
+	javac TestFrontend.java
 
-testBackend:
-	@echo "FIXME: *make testFrontend* should compile (when needed) and run all your team's tests for this application"
+testBackend: FrontendInterface.java
+	java TestBackend
+TestBackend.class: Backend.java
+	javac TestBackend.java
 
-testData:
-	@echo "FIXME: *make testFrontend* should compile (when needed) and run all your team's tests for this application"
+testData: FrontendInterface.java
+	java TestMovieAndDataReader
+TestMovieAndMovieDataReader.class: MovieDataReader.java
+	javac MovieDataReader.java
 
 clean:
 	$(RM) *.class
