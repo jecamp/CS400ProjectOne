@@ -1,29 +1,39 @@
-run:
-default: make run
-	
-compile:
-FrontendInterface.class: FrontendInterface.java
-	javac FrontendInterface.java
+run: compile
 
-make run: FrontendInterface.class
-	java FrontendInterface "movies.csv"
-	
+compile: FrontendInterface.class Backend.class MovieDataReader.class Movie.class
+        java FrontendInterface movies.csv
+
+FrontendInterface.class: FrontendInterface.java
+        javac FrontendInterface.java
+
+Backend.class: Backend.java
+        javac Backend.java
+
+MovieDataReader.class: MovieDataReader.java
+        javac MovieDataReader.java
+
+Movie.class: Movie.java
+        javac Movie.java
+
 test: testData testBackend testFrontend
 
-testFrontend: FrontendInterface.java
-	java TestFrontend
-TestFrontend.class: FrontendInterface.java
-	javac TestFrontend.java
+testFrontend: TestFrontend.class
+        java TestFrontend
 
-testBackend: FrontendInterface.java
-	java TestBackend
-TestBackend.class: Backend.java
-	javac TestBackend.java
+TestFrontend.class: TestFrontend.java
+        javac TestFrontend.java
 
-testData: FrontendInterface.java
-	java TestMovieAndDataReader
-TestMovieAndMovieDataReader.class: MovieDataReader.java
-	javac MovieDataReader.java
+testBackend: TestBackend.class
+        java TestBackend
+
+TestBackend.class: TestBackend.java
+        javac TestBackend.java
+
+testData: TestMovieAndMovieDataReader.class
+        java TestMovieAndMovieDataReader
+
+TestMovieAndMovieDataReader.class: TestMovieAndMovieDataReader.java
+        javac TestMovieAndMovieDataReader.java
 
 clean:
-	$(RM) *.class
+        $(RM) *.class
